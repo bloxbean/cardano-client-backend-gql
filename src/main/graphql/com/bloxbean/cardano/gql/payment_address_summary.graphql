@@ -1,0 +1,19 @@
+query AddressSummary($addresses:[String]!) {
+    paymentAddresses(addresses: $addresses) {
+        summary {
+            assetBalances {
+                asset {
+                    assetId
+                    policyId
+                    assetName
+                    fingerprint
+                }
+                quantity
+            }
+        }
+        address
+        summary {
+            utxosCount
+        }
+    }
+}

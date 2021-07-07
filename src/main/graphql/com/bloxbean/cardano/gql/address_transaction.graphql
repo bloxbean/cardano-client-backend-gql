@@ -1,0 +1,39 @@
+query AddressTransactionsByOutputs($address: String!, $limit: Int!, $offset: Int!, $orderby: order_by!) {
+    transactions (
+        limit: $limit
+        offset: $offset
+        order_by: [{
+            includedAt: $orderby
+        }]
+        where: {
+            outputs: {
+                address: {
+                    _eq: $address
+                }
+            }
+        }
+    ) {
+        hash
+        includedAt
+    }
+}
+
+query AddressTransactionsByInputs($address: String!, $limit: Int!, $offset: Int!, $orderby: order_by!) {
+    transactions (
+        limit: $limit
+        offset: $offset
+        order_by: [{
+            includedAt: $orderby
+        }]
+        where: {
+            inputs: {
+                address: {
+                    _eq: $address
+                }
+            }
+        }
+    ) {
+        hash
+        includedAt
+    }
+}

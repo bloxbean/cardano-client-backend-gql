@@ -1,0 +1,66 @@
+query LatestEpochQuery {
+    epochs(limit: 1
+        order_by: [{
+            number: desc
+        }]
+    ) {
+        number
+        startedAt
+        # enedAt
+        lastBlockTime
+        blocksCount
+        transactionsCount
+        output
+        fees
+    }
+}
+
+query EpochQuery($number: Int!) {
+    epochs(
+        where: {
+            number: {
+                _eq: $number
+            }
+        }
+    ) {
+        number
+        startedAt
+        # enedAt
+        lastBlockTime
+        blocksCount
+        transactionsCount
+        output
+        fees
+    }
+}
+
+query ProtocolParamQuery($number: Int!) {
+    epochs(
+        where: {
+            number: {
+                _eq: $number
+            }
+        }
+    ) {
+        protocolParams {
+            a0
+            decentralisationParam
+            eMax
+            extraEntropy
+            keyDeposit
+            maxBlockBodySize
+            maxBlockHeaderSize
+            maxTxSize
+            minFeeA
+            minFeeB
+            minPoolCost
+            minUTxOValue
+            nOpt
+            poolDeposit
+            protocolVersion
+            rho
+            tau
+
+        }
+    }
+}

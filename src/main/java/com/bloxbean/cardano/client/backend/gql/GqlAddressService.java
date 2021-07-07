@@ -1,0 +1,128 @@
+package com.bloxbean.cardano.client.backend.gql;
+
+import com.bloxbean.cardano.client.backend.api.AddressService;
+import com.bloxbean.cardano.client.backend.common.OrderEnum;
+import com.bloxbean.cardano.client.backend.exception.ApiException;
+import com.bloxbean.cardano.client.backend.model.AddressContent;
+import com.bloxbean.cardano.client.backend.model.Result;
+import com.bloxbean.cardano.client.backend.model.TxContentOutputAmount;
+import com.bloxbean.cardano.gql.AddressSummaryQuery;
+import com.bloxbean.cardano.gql.AddressTransactionsByInputsQuery;
+import com.bloxbean.cardano.gql.AddressTransactionsByOutputsQuery;
+import com.bloxbean.cardano.gql.type.Order_by;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.bloxbean.cardano.client.common.CardanoConstants.LOVELACE;
+
+public class GqlAddressService extends BaseGqlService implements AddressService {
+    public GqlAddressService(String gqlUrl) {
+        super(gqlUrl);
+    }
+
+    @Override
+    public Result<AddressContent> getAddressInfo(String address) throws ApiException {
+        if(address == null || address.length() == 0)
+            return Result.error("Empty address");
+
+        AddressSummaryQuery query = new AddressSummaryQuery(Arrays.asList(address));
+        AddressSummaryQuery.Data data = execute(query);
+        if(data == null || data.paymentAddresses() == null || data.paymentAddresses().size() == 0)
+            return Result.error("Unable to find summary for address: " + address);
+
+        List<AddressContent> addressContents = data.paymentAddresses().stream()
+                .map(paymentAddress -> {
+                    AddressContent addressContent = new AddressContent();
+                    AddressSummaryQuery.Summary summary = paymentAddress.summary();
+                    if(summary != null && summary.assetBalances() != null) {
+                        summary.assetBalances().forEach(assetBalance -> {
+                            TxContentOutputAmount txContentOutputAmount = new TxContentOutputAmount();
+                            if("ada".equals(assetBalance.asset().assetId())) { //GraphQL returns unit as ada for lovelace
+                                txContentOutputAmount.setUnit(LOVELACE);
+                            } else {
+                                txContentOutputAmount.setUnit(assetBalance.asset().assetId());
+                            }
+                            txContentOutputAmount.setQuantity(assetBalance.quantity());
+                            addressContent.getAmount().add(txContentOutputAmount);
+                        });
+                    }
+
+                    return addressContent;
+                }).collect(Collectors.toList());
+
+        if(addressContents == null || addressContents.size() == 0)
+            return Result.error("Address summary not found for address: " + address);
+
+        return processSuccessResult(addressContents.get(0));
+    }
+
+    @Override
+    public Result<List<String>> getTransactions(String address, int count, int page) throws ApiException {
+        return getTransactions(address, count, page, OrderEnum.desc);
+    }
+
+    @Override
+    public Result<List<String>> getTransactions(String address, int count, int page, OrderEnum order) throws ApiException {
+        //TODO :- What happens if the transaction is not there outpus
+        if(address == null || address.length() == 0)
+            throw new ApiException("Empty address");
+
+        if(page > 0)
+            page = page - 1;
+        int offset = count * page;
+
+        Order_by orderBy = convertOrderEnum(order);
+        List<String> txnList = getTransactionsByOutput(address, count, offset, orderBy);
+//        List<String> inputTxnList = getTransactionsByInput(address, count, offset, order);
+//
+//        for(String hash: inputTxnList) {
+//            if(!txnList.contains(hash)) {
+//                txnList.add(hash);
+//            }
+//        }
+
+        return processSuccessResult(txnList);
+    }
+
+    private List<String> getTransactionsByOutput(String address, int count, int offset, Order_by order) throws ApiException {
+        AddressTransactionsByOutputsQuery query = new AddressTransactionsByOutputsQuery(address, count, offset, order);
+        AddressTransactionsByOutputsQuery.Data data = execute(query);
+
+        if(data == null)
+            throw new ApiException("Unable to find output transaction for the address: " + address);
+
+        List<String> txnList = null;
+        List<AddressTransactionsByOutputsQuery.Transaction> transactions = data.transactions();
+        txnList = transactions.stream().map(transaction -> transaction.hash().toString())
+                .collect(Collectors.toList());
+
+        return txnList;
+    }
+
+    private List<String> getTransactionsByInput(String address, int count, int offset, Order_by order) throws ApiException {
+        AddressTransactionsByInputsQuery query = new AddressTransactionsByInputsQuery(address, count, offset, order);
+        AddressTransactionsByInputsQuery.Data data = execute(query);
+
+        if(data == null)
+            throw new ApiException("Unable to find input transaction for the address: " + address);
+
+        List<String> txnList = new ArrayList<>();
+        List<AddressTransactionsByInputsQuery.Transaction> transactions = data.transactions();
+        txnList = transactions.stream().map(transaction -> transaction.hash().toString())
+                .collect(Collectors.toList());
+
+        return txnList;
+    }
+
+    private Order_by convertOrderEnum(OrderEnum orderEnum) {
+        if(orderEnum == null)
+            return Order_by.DESC;
+        else if(orderEnum == OrderEnum.asc)
+            return Order_by.ASC;
+        else
+            return Order_by.DESC;
+    }
+}
