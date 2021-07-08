@@ -7,10 +7,7 @@ import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.backend.model.metadata.MetadataCBORContent;
 import com.bloxbean.cardano.client.backend.model.metadata.MetadataJSONContent;
 import com.bloxbean.cardano.client.backend.model.metadata.MetadataLabel;
-import com.bloxbean.cardano.client.metadata.helper.MetadataToJsonNoSchemaConverter;
-import com.bloxbean.cardano.client.util.JsonUtil;
 import com.bloxbean.cardano.gql.MetadataQuery;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.TextNode;
@@ -18,11 +15,17 @@ import com.fasterxml.jackson.databind.node.TextNode;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class GqlMetadataService extends BaseGqlService implements MetadataService {
     ObjectMapper objectMapper;
     public GqlMetadataService(String gqlUrl) {
         super(gqlUrl);
+        this.objectMapper = new ObjectMapper();
+    }
+
+    public GqlMetadataService(String gqlUrl, Map<String, String > headers) {
+        super(gqlUrl, headers);
         this.objectMapper = new ObjectMapper();
     }
 

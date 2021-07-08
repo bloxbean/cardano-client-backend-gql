@@ -4,16 +4,20 @@ import com.bloxbean.cardano.client.backend.api.AssetService;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Asset;
 import com.bloxbean.cardano.client.backend.model.Result;
-import com.bloxbean.cardano.client.util.JsonUtil;
 import com.bloxbean.cardano.gql.AssetQuery;
 
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 public class GqlAssetService extends BaseGqlService implements AssetService {
 
     public GqlAssetService(String gqlUrl) {
         super(gqlUrl);
+    }
+
+    public GqlAssetService(String gqlUrl, Map<String, String > headers) {
+        super(gqlUrl, headers);
     }
 
     @Override

@@ -14,12 +14,17 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 import static com.bloxbean.cardano.client.backend.gql.util.ConversionUtil.intValue;
 
 public class GqlBlockService extends BaseGqlService implements BlockService {
     public GqlBlockService(String gqlUrl) {
         super(gqlUrl);
+    }
+
+    public GqlBlockService(String gqlUrl, Map<String, String > headers) {
+        super(gqlUrl, headers);
     }
 
     @Override

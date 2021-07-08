@@ -6,13 +6,16 @@ import com.apollographql.apollo.api.Mutation;
 import com.apollographql.apollo.api.Query;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
+import com.bloxbean.cardano.client.backend.gql.adapter.AddHeadersInterceptor;
 import com.bloxbean.cardano.client.backend.gql.adapter.JSONCustomTypeAdapter;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.util.JsonUtil;
 import com.bloxbean.cardano.gql.type.CustomType;
+import okhttp3.OkHttpClient;
 import org.jetbrains.annotations.NotNull;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -21,8 +24,21 @@ public class BaseGqlService {
     protected ApolloClient apolloClient;
 
     public BaseGqlService(String gqlUrl) {
+        this(gqlUrl, null);
+    }
+
+    public BaseGqlService(String gqlUrl, Map<String, String> headers) {
         this.gqlUrl = gqlUrl;
-        apolloClient = ApolloClient.builder()
+
+        ApolloClient.Builder builder = ApolloClient.builder();
+        if(headers != null && headers.size() > 0) {
+            OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient().newBuilder();
+            okHttpClientBuilder.addInterceptor(new AddHeadersInterceptor(headers));
+
+            builder.okHttpClient(okHttpClientBuilder.build());
+        }
+
+        apolloClient = builder
                 .serverUrl(gqlUrl)
                 .addCustomTypeAdapter(CustomType.JSON, new JSONCustomTypeAdapter())
                 .build();

@@ -2,6 +2,9 @@ package com.bloxbean.cardano.client.backend.gql.it;
 
 import com.bloxbean.cardano.client.backend.gql.GqlBackendService;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class GqlBaseTest {
     protected String authKey;
     protected GqlBackendService backendService;
@@ -12,8 +15,10 @@ public class GqlBaseTest {
             authKey = System.getenv("CARDANO_GRAPHQL_AUTH_KEY");
         }
 
-        backendService = new GqlBackendService(Constant.GQL_URL);
-//        authKey = "";
+        Map<String, String> headers = new HashMap<>();
+        headers.put("AuthKey", "Some Auth key");
+        headers.put("CustomHeader", "Some header");
 
+        backendService = new GqlBackendService(Constant.GQL_URL, headers);
     }
 }

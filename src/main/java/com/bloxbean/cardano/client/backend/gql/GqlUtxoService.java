@@ -7,7 +7,6 @@ import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Amount;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.backend.model.Utxo;
-import com.bloxbean.cardano.gql.TransactionQuery;
 import com.bloxbean.cardano.gql.UtxosQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.bloxbean.cardano.client.common.CardanoConstants.LOVELACE;
@@ -24,6 +24,10 @@ public class GqlUtxoService extends BaseGqlService implements UtxoService {
 
     public GqlUtxoService(String gqlUrl) {
         super(gqlUrl);
+    }
+
+    public GqlUtxoService(String gqlUrl, Map<String, String > headers) {
+        super(gqlUrl, headers);
     }
 
     @Override

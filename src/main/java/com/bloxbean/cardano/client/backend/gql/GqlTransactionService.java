@@ -25,6 +25,10 @@ public class GqlTransactionService extends BaseGqlService implements Transaction
         super(gqlUrl);
     }
 
+    public GqlTransactionService(String gqlUrl, Map<String, String > headers) {
+        super(gqlUrl, headers);
+    }
+
     @Override
     public Result<String> submitTransaction(byte[] cborData) throws ApiException {
         String signedTx = HexUtil.encodeHexString(cborData);

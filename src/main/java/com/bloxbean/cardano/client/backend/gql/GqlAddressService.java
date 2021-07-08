@@ -14,6 +14,7 @@ import com.bloxbean.cardano.gql.type.Order_by;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.bloxbean.cardano.client.common.CardanoConstants.LOVELACE;
@@ -21,6 +22,10 @@ import static com.bloxbean.cardano.client.common.CardanoConstants.LOVELACE;
 public class GqlAddressService extends BaseGqlService implements AddressService {
     public GqlAddressService(String gqlUrl) {
         super(gqlUrl);
+    }
+
+    public GqlAddressService(String gqlUrl, Map<String, String > headers) {
+        super(gqlUrl, headers);
     }
 
     @Override

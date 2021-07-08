@@ -7,10 +7,15 @@ import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.gql.NetworkInfoQuery;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 public class GqlNetworkInfoService extends BaseGqlService implements NetworkInfoService {
     public GqlNetworkInfoService(String gqlUrl) {
         super(gqlUrl);
+    }
+
+    public GqlNetworkInfoService(String gqlUrl, Map<String, String > headers) {
+        super(gqlUrl, headers);
     }
 
     @Override
