@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'maven-publish'
+    id 'signing'
     id("com.apollographql.apollo").version("2.5.9")
 }
 
