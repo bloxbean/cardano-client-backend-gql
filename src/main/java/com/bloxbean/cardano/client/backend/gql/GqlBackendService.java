@@ -45,6 +45,6 @@ public class GqlBackendService implements BackendService {
 
     @Override
     public MetadataService getMetadataService() {
-        throw new UnsupportedOperationException();
+        return new GqlMetadataService(this.gqlUrl);
     }
 }

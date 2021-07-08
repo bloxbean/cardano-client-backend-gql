@@ -1,3 +1,23 @@
+query AddressSummary($addresses:[String]!) {
+    paymentAddresses(addresses: $addresses) {
+        summary {
+            assetBalances {
+                asset {
+                    assetId
+                    policyId
+                    assetName
+                    fingerprint
+                }
+                quantity
+            }
+        }
+        address
+        summary {
+            utxosCount
+        }
+    }
+}
+
 query AddressTransactionsByOutputs($address: String!, $limit: Int!, $offset: Int!, $orderby: order_by!) {
     transactions (
         limit: $limit

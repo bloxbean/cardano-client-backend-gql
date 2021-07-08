@@ -1,4 +1,4 @@
-query UtxosQuery($address:String!, $limit: Int!, $offset: Int!){
+query UtxosQuery($address:String, $limit: Int, $offset: Int){
     utxos(
         limit: $limit
         offset: $offset

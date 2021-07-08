@@ -1,5 +1,6 @@
 package com.bloxbean.cardano.client.backend.gql.it;
 
+import com.bloxbean.cardano.client.backend.api.TransactionService;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.gql.GqlNetworkInfoService;
 import com.bloxbean.cardano.client.backend.gql.GqlTransactionService;
@@ -14,11 +15,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GqlTransactionServiceIT extends GqlBaseTest {
-    GqlTransactionService transactionService;
+    TransactionService transactionService;
 
     @BeforeEach
     public void setup() {
-        transactionService = new GqlTransactionService(Constant.GQL_URL);
+        transactionService = backendService.getTransactionService();
     }
 
     @Test

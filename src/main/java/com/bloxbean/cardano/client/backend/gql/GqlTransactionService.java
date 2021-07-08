@@ -1,11 +1,14 @@
 package com.bloxbean.cardano.client.backend.gql;
 
+import com.apollographql.apollo.exception.ApolloException;
 import com.bloxbean.cardano.client.backend.api.TransactionService;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.*;
 import com.bloxbean.cardano.client.util.HexUtil;
 import com.bloxbean.cardano.gql.SubmitTxMutation;
 import com.bloxbean.cardano.gql.TransactionQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,6 +19,8 @@ import java.util.Map;
 import static com.bloxbean.cardano.client.common.CardanoConstants.LOVELACE;
 
 public class GqlTransactionService extends BaseGqlService implements TransactionService {
+    private final static Logger logger = LoggerFactory.getLogger(GqlTransactionService.class);
+
     public GqlTransactionService(String gqlUrl) {
         super(gqlUrl);
     }
@@ -24,7 +29,13 @@ public class GqlTransactionService extends BaseGqlService implements Transaction
     public Result<String> submitTransaction(byte[] cborData) throws ApiException {
         String signedTx = HexUtil.encodeHexString(cborData);
         SubmitTxMutation submitTxMutation = new SubmitTxMutation(signedTx);
-        SubmitTxMutation.Data data = executeMutatation(submitTxMutation);
+        SubmitTxMutation.Data data = null;
+        try {
+            data = executeMutatation(submitTxMutation);
+        } catch (ApolloException e) {
+            logger.error("Transaction submission error", e);
+            return Result.error(e.getMessage()).withValue(e);
+        }
 
         if(data == null)
             return Result.error("Error in transaction submission");

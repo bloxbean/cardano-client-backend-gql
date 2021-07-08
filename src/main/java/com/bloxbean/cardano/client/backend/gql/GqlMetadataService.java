@@ -50,13 +50,15 @@ public class GqlMetadataService extends BaseGqlService implements MetadataServic
             metadataJSONContentList.add(metadataJSONContent);
         }
 
+
         return processSuccessResult(metadataJSONContentList);
     }
 
     private JsonNode convertToJsonNode(MetadataQuery.Metadatum metadatum) {
         try {
-            return objectMapper.readTree(metadatum.value().toString());
-        } catch (JsonProcessingException e) {
+            return metadatum.value();
+//            return objectMapper.readTree(metadatum.value().toString());
+        } catch (Exception e) {
             return new TextNode(metadatum.value().toString());
         }
     }

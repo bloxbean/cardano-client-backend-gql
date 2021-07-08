@@ -1,17 +1,21 @@
+fragment EpochFragment on Epoch {
+    number
+    startedAt
+    # enedAt
+    lastBlockTime
+    blocksCount
+    transactionsCount
+    output
+    fees
+}
+
 query LatestEpochQuery {
     epochs(limit: 1
         order_by: [{
             number: desc
         }]
     ) {
-        number
-        startedAt
-        # enedAt
-        lastBlockTime
-        blocksCount
-        transactionsCount
-        output
-        fees
+        ...EpochFragment
     }
 }
 
@@ -23,14 +27,7 @@ query EpochQuery($number: Int!) {
             }
         }
     ) {
-        number
-        startedAt
-        # enedAt
-        lastBlockTime
-        blocksCount
-        transactionsCount
-        output
-        fees
+        ...EpochFragment
     }
 }
 

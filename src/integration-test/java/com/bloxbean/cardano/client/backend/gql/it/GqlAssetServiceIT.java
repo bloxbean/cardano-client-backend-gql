@@ -14,8 +14,7 @@ public class GqlAssetServiceIT extends GqlBaseTest {
 
     @Test
     void getAsset() throws ApiException {
-        AssetService service = new GqlAssetService(Constant.GQL_URL);
-        Result<Asset> result = service.getAsset("7180cf30d4f4db3037bd815f89f0b348a10e31e11f0a40e6993c8189594f5550");
+        Result<Asset> result = backendService.getAssetService().getAsset("7180cf30d4f4db3037bd815f89f0b348a10e31e11f0a40e6993c8189594f5550");
 
         System.out.println(JsonUtil.getPrettyJson(result.getValue()));
         assertTrue(result.isSuccessful());

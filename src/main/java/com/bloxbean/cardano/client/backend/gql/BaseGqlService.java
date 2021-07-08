@@ -6,8 +6,10 @@ import com.apollographql.apollo.api.Mutation;
 import com.apollographql.apollo.api.Query;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
+import com.bloxbean.cardano.client.backend.gql.adapter.JSONCustomTypeAdapter;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.util.JsonUtil;
+import com.bloxbean.cardano.gql.type.CustomType;
 import org.jetbrains.annotations.NotNull;
 import reactor.core.publisher.Mono;
 
@@ -22,6 +24,7 @@ public class BaseGqlService {
         this.gqlUrl = gqlUrl;
         apolloClient = ApolloClient.builder()
                 .serverUrl(gqlUrl)
+                .addCustomTypeAdapter(CustomType.JSON, new JSONCustomTypeAdapter())
                 .build();
     }
 

@@ -18,7 +18,7 @@ public class GqlBlockServiceIT extends GqlBaseTest {
 
     @BeforeEach
     public void setup() {
-        blockService = new GqlBlockService(Constant.GQL_URL);
+        blockService = backendService.getBlockService();
     }
 
     @Test

@@ -1,12 +1,16 @@
 package com.bloxbean.cardano.client.backend.gql;
 
+import com.apollographql.apollo.api.Input;
 import com.bloxbean.cardano.client.backend.api.UtxoService;
 import com.bloxbean.cardano.client.backend.common.OrderEnum;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Amount;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.backend.model.Utxo;
+import com.bloxbean.cardano.gql.TransactionQuery;
 import com.bloxbean.cardano.gql.UtxosQuery;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ import java.util.stream.Collectors;
 import static com.bloxbean.cardano.client.common.CardanoConstants.LOVELACE;
 
 public class GqlUtxoService extends BaseGqlService implements UtxoService {
+    private final Logger logger = LoggerFactory.getLogger(GqlUtxoService.class);
 
     public GqlUtxoService(String gqlUrl) {
         super(gqlUrl);
@@ -23,13 +28,23 @@ public class GqlUtxoService extends BaseGqlService implements UtxoService {
 
     @Override
     public Result<List<Utxo>> getUtxos(String address, int count, int page) throws ApiException {
-        if(page > 0)
-            page = page - 1;
+        if(page == 0)
+            page = 1;
+
+        page = page - 1;
         int offset = count * page;
 
-        UtxosQuery.Data data = execute(new UtxosQuery(address, count, offset));
-        if(data == null || data.utxos() == null || data.utxos().size() == 0)
-            return Result.error("No utxos found");
+        UtxosQuery.Data data = null;
+        try {
+
+            data = execute(new UtxosQuery(Input.optional(address), Input.optional(count), Input.optional(offset)));
+            if (data == null || data.utxos() == null || data.utxos().size() == 0)
+                return Result.error("No utxos found");
+        } catch (Exception e) {
+            if(logger.isDebugEnabled())
+                logger.warn("Utxos not found", e);
+            return Result.error("No utxos found").withValue(e);
+        }
 
         List<Utxo> utxos = data.utxos().stream()
                 .map(ux -> {

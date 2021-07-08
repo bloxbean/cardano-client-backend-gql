@@ -8,6 +8,7 @@ import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.gql.EpochQuery;
 import com.bloxbean.cardano.gql.LatestEpochQuery;
 import com.bloxbean.cardano.gql.ProtocolParamQuery;
+import com.bloxbean.cardano.gql.fragment.EpochFragment;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -28,7 +29,7 @@ public class GqlEpochService extends BaseGqlService implements EpochService {
         if(epochs == null || epochs.size() == 0)
             return Result.error("No epochs found");
 
-        LatestEpochQuery.Epoch latestEpoch = epochs.get(0);
+        EpochFragment latestEpoch = epochs.get(0).fragments().epochFragment();
         EpochContent epochContent = new EpochContent();
         epochContent.setEpoch(latestEpoch.number());
         epochContent.setBlockCount(asInt(latestEpoch.blocksCount()));
@@ -50,7 +51,7 @@ public class GqlEpochService extends BaseGqlService implements EpochService {
         if(epochs == null || epochs.size() == 0)
             return Result.error("No epochs found");
 
-        EpochQuery.Epoch epoch = epochs.get(0);
+        EpochFragment epoch = epochs.get(0).fragments().epochFragment();
         EpochContent epochContent = new EpochContent();
         epochContent.setEpoch(epoch.number());
         epochContent.setBlockCount(asInt(epoch.blocksCount()));

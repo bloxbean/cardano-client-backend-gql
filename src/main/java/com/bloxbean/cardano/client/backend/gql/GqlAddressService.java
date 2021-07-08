@@ -61,7 +61,7 @@ public class GqlAddressService extends BaseGqlService implements AddressService 
 
     @Override
     public Result<List<String>> getTransactions(String address, int count, int page) throws ApiException {
-        return getTransactions(address, count, page, OrderEnum.desc);
+        return getTransactions(address, count, page, OrderEnum.asc);
     }
 
     @Override
@@ -70,8 +70,10 @@ public class GqlAddressService extends BaseGqlService implements AddressService 
         if(address == null || address.length() == 0)
             throw new ApiException("Empty address");
 
-        if(page > 0)
-            page = page - 1;
+        if(page == 0)
+            page = 1;
+
+        page = page - 1;
         int offset = count * page;
 
         Order_by orderBy = convertOrderEnum(order);
@@ -119,7 +121,7 @@ public class GqlAddressService extends BaseGqlService implements AddressService 
 
     private Order_by convertOrderEnum(OrderEnum orderEnum) {
         if(orderEnum == null)
-            return Order_by.DESC;
+            return Order_by.ASC;
         else if(orderEnum == OrderEnum.asc)
             return Order_by.ASC;
         else

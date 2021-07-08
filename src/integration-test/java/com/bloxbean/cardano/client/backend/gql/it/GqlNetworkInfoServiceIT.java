@@ -1,7 +1,7 @@
 package com.bloxbean.cardano.client.backend.gql.it;
 
+import com.bloxbean.cardano.client.backend.api.NetworkInfoService;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
-import com.bloxbean.cardano.client.backend.gql.GqlNetworkInfoService;
 import com.bloxbean.cardano.client.backend.model.Genesis;
 import com.bloxbean.cardano.client.backend.model.Result;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class GqlNetworkInfoServiceIT extends GqlBaseTest {
-    GqlNetworkInfoService networkInfoService;
+    NetworkInfoService networkInfoService;
 
     @BeforeEach
     public void setup() {
-        networkInfoService = new GqlNetworkInfoService(Constant.GQL_URL);
+        networkInfoService = backendService.getNetworkInfoService();
     }
 
     @Test
