@@ -6,7 +6,6 @@ import com.bloxbean.cardano.client.backend.gql.GqlAddressService;
 import com.bloxbean.cardano.client.backend.model.AddressContent;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.util.JsonUtil;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GqlAddressServiceTest {
+public class GqlAddressServiceIT {
     GqlAddressService addressService;
 
     @BeforeEach

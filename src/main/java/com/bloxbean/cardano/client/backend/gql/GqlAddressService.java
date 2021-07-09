@@ -10,6 +10,7 @@ import com.bloxbean.cardano.gql.AddressSummaryQuery;
 import com.bloxbean.cardano.gql.AddressTransactionsByInputsQuery;
 import com.bloxbean.cardano.gql.AddressTransactionsByOutputsQuery;
 import com.bloxbean.cardano.gql.type.Order_by;
+import okhttp3.OkHttpClient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,12 +21,17 @@ import java.util.stream.Collectors;
 import static com.bloxbean.cardano.client.common.CardanoConstants.LOVELACE;
 
 public class GqlAddressService extends BaseGqlService implements AddressService {
+
     public GqlAddressService(String gqlUrl) {
         super(gqlUrl);
     }
 
-    public GqlAddressService(String gqlUrl, Map<String, String > headers) {
+    public GqlAddressService(String gqlUrl, Map<String, String> headers) {
         super(gqlUrl, headers);
+    }
+
+    public GqlAddressService(String gqlUrl, OkHttpClient okHttpClient) {
+        super(gqlUrl, okHttpClient);
     }
 
     @Override

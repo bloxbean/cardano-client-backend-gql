@@ -8,6 +8,7 @@ import com.bloxbean.cardano.client.backend.model.Amount;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.client.backend.model.Utxo;
 import com.bloxbean.cardano.gql.UtxosQuery;
+import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,8 +27,12 @@ public class GqlUtxoService extends BaseGqlService implements UtxoService {
         super(gqlUrl);
     }
 
-    public GqlUtxoService(String gqlUrl, Map<String, String > headers) {
+    public GqlUtxoService(String gqlUrl, Map<String, String> headers) {
         super(gqlUrl, headers);
+    }
+
+    public GqlUtxoService(String gqlUrl, OkHttpClient okHttpClient) {
+        super(gqlUrl, okHttpClient);
     }
 
     @Override

@@ -9,18 +9,27 @@ import com.bloxbean.cardano.gql.EpochQuery;
 import com.bloxbean.cardano.gql.LatestEpochQuery;
 import com.bloxbean.cardano.gql.ProtocolParamQuery;
 import com.bloxbean.cardano.gql.fragment.EpochFragment;
+import okhttp3.OkHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
 public class GqlEpochService extends BaseGqlService implements EpochService {
+    private final static Logger logger = LoggerFactory.getLogger(GqlEpochService.class);
+
     public GqlEpochService(String gqlUrl) {
         super(gqlUrl);
     }
 
-    public GqlEpochService(String gqlUrl, Map<String, String > headers) {
+    public GqlEpochService(String gqlUrl, Map<String, String> headers) {
         super(gqlUrl, headers);
+    }
+
+    public GqlEpochService(String gqlUrl, OkHttpClient okHttpClient) {
+        super(gqlUrl, okHttpClient);
     }
 
     @Override

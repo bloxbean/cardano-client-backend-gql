@@ -9,6 +9,7 @@ import com.bloxbean.cardano.gql.BlockByHashQuery;
 import com.bloxbean.cardano.gql.BlockByNumberQuery;
 import com.bloxbean.cardano.gql.RecentBlockQuery;
 import com.bloxbean.cardano.gql.fragment.BlockFragment;
+import okhttp3.OkHttpClient;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigDecimal;
@@ -19,12 +20,17 @@ import java.util.Map;
 import static com.bloxbean.cardano.client.backend.gql.util.ConversionUtil.intValue;
 
 public class GqlBlockService extends BaseGqlService implements BlockService {
+
     public GqlBlockService(String gqlUrl) {
         super(gqlUrl);
     }
 
     public GqlBlockService(String gqlUrl, Map<String, String > headers) {
         super(gqlUrl, headers);
+    }
+
+    public GqlBlockService(String gqlUrl, OkHttpClient okHttpClient) {
+        super(gqlUrl, okHttpClient);
     }
 
     @Override

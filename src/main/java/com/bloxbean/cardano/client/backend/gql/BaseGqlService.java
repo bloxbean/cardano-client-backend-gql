@@ -15,31 +15,46 @@ import okhttp3.OkHttpClient;
 import org.jetbrains.annotations.NotNull;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+
+import static com.bloxbean.cardano.client.backend.gql.util.HttpClientConstants.GQL_CALL_TIMEOUT_SEC;
+import static com.bloxbean.cardano.client.backend.gql.util.HttpClientConstants.GQL_READ_TIMEOUT_SEC;
 
 public class BaseGqlService {
     protected String gqlUrl;
     protected ApolloClient apolloClient;
 
     public BaseGqlService(String gqlUrl) {
-        this(gqlUrl, null);
+        this(gqlUrl, Collections.EMPTY_MAP);
     }
 
     public BaseGqlService(String gqlUrl, Map<String, String> headers) {
         this.gqlUrl = gqlUrl;
 
-        ApolloClient.Builder builder = ApolloClient.builder();
-        if(headers != null && headers.size() > 0) {
-            OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient().newBuilder();
-            okHttpClientBuilder.addInterceptor(new AddHeadersInterceptor(headers));
+        OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient().newBuilder();
+        okHttpClientBuilder.callTimeout( Duration.ofSeconds(GQL_CALL_TIMEOUT_SEC));
+        okHttpClientBuilder.readTimeout(Duration.ofSeconds(GQL_READ_TIMEOUT_SEC));
 
-            builder.okHttpClient(okHttpClientBuilder.build());
+        if(headers != null && headers.size() > 0) {
+            okHttpClientBuilder.addInterceptor(new AddHeadersInterceptor(headers));
         }
 
+        ApolloClient.Builder builder = ApolloClient.builder();
+        builder.okHttpClient(okHttpClientBuilder.build());
         apolloClient = builder
                 .serverUrl(gqlUrl)
+                .addCustomTypeAdapter(CustomType.JSON, new JSONCustomTypeAdapter())
+                .build();
+    }
+
+    public BaseGqlService(String gqlUrl, OkHttpClient okHttpClient) {
+        apolloClient = ApolloClient.builder()
+                .serverUrl(gqlUrl)
+                .okHttpClient(okHttpClient)
                 .addCustomTypeAdapter(CustomType.JSON, new JSONCustomTypeAdapter())
                 .build();
     }

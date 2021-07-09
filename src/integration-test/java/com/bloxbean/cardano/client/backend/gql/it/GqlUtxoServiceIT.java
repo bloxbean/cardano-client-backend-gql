@@ -26,7 +26,7 @@ public class GqlUtxoServiceIT extends GqlBaseTest {
 
     @Test
     public void testGetUtxos() throws ApiException, JsonProcessingException {
-        String address = "addr_test1qqwpl7h3g84mhr36wpetk904p7fchx2vst0z696lxk8ujsjyruqwmlsm344gfux3nsj6njyzj3ppvrqtt36cp9xyydzqzumz82";
+        String address = "addr_test1qzx9hu8j4ah3auytk0mwcupd69hpc52t0cw39a65ndrah86djs784u92a3m5w475w3w35tyd6v3qumkze80j8a6h5tuqq5xe8y";
 
         Result<List<Utxo>> result = utxoService.getUtxos(address, 40, 0);
 

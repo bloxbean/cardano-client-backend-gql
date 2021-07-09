@@ -5,6 +5,7 @@ import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.model.Asset;
 import com.bloxbean.cardano.client.backend.model.Result;
 import com.bloxbean.cardano.gql.AssetQuery;
+import okhttp3.OkHttpClient;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -18,6 +19,10 @@ public class GqlAssetService extends BaseGqlService implements AssetService {
 
     public GqlAssetService(String gqlUrl, Map<String, String > headers) {
         super(gqlUrl, headers);
+    }
+
+    public GqlAssetService(String gqlUrl, OkHttpClient client) {
+        super(gqlUrl, client);
     }
 
     @Override

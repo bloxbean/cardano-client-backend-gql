@@ -11,6 +11,7 @@ import com.bloxbean.cardano.gql.MetadataQuery;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.TextNode;
+import okhttp3.OkHttpClient;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -26,6 +27,11 @@ public class GqlMetadataService extends BaseGqlService implements MetadataServic
 
     public GqlMetadataService(String gqlUrl, Map<String, String > headers) {
         super(gqlUrl, headers);
+        this.objectMapper = new ObjectMapper();
+    }
+
+    public GqlMetadataService(String gqlUrl, OkHttpClient okHttpClient) {
+        super(gqlUrl, okHttpClient);
         this.objectMapper = new ObjectMapper();
     }
 

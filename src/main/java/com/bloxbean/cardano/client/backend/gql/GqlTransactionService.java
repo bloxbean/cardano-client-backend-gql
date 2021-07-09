@@ -7,6 +7,7 @@ import com.bloxbean.cardano.client.backend.model.*;
 import com.bloxbean.cardano.client.util.HexUtil;
 import com.bloxbean.cardano.gql.SubmitTxMutation;
 import com.bloxbean.cardano.gql.TransactionQuery;
+import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,8 +26,12 @@ public class GqlTransactionService extends BaseGqlService implements Transaction
         super(gqlUrl);
     }
 
-    public GqlTransactionService(String gqlUrl, Map<String, String > headers) {
+    public GqlTransactionService(String gqlUrl, Map<String, String> headers) {
         super(gqlUrl, headers);
+    }
+
+    public GqlTransactionService(String gqlUrl, OkHttpClient okHttpClient) {
+        super(gqlUrl, okHttpClient);
     }
 
     @Override
