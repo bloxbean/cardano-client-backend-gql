@@ -17,7 +17,7 @@
 <dependency>
      <groupId>com.bloxbean.cardano</groupId>
      <artifactId>cardano-client-backend-gql</artifactId>
-     <version>0.1.0</version>
+     <version>0.1.1</version>
 </dependency>
 ```
 
@@ -25,7 +25,7 @@
 
 ```
   implementation('com.bloxbean.cardano:cardano-client-lib:0.1.2')
-  implementation('com.bloxbean.cardano:cardano-client-backend-gql:0.1.0')
+  implementation('com.bloxbean.cardano:cardano-client-backend-gql:0.1.1')
 ```
 
 **Get BackendService instance for Cardano GraphQL backend**
