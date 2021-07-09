@@ -42,7 +42,9 @@ public class GqlTransactionService extends BaseGqlService implements Transaction
         try {
             data = executeMutatation(submitTxMutation);
         } catch (ApolloException e) {
-            logger.error("Transaction submission error", e);
+            if(logger.isDebugEnabled()) {
+                logger.error("Transaction submission error", e);
+            }
             return Result.error(e.getMessage()).withValue(e);
         }
 
