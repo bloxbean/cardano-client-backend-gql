@@ -109,4 +109,17 @@ public class GqlBackendService implements BackendService {
             return new GqlMetadataService(this.gqlUrl);
         }
     }
+
+    public void shutdown() {
+        if(okHttpClient == null)
+            return;
+
+        try {
+            okHttpClient.dispatcher().executorService().shutdown();
+            okHttpClient.connectionPool().evictAll();
+            okHttpClient.cache().close();
+        } catch (Exception e) {
+
+        }
+    }
 }
