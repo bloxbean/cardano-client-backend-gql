@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,10 +46,9 @@ public class GqlUtxoService extends BaseGqlService implements UtxoService {
 
         UtxosQuery.Data data = null;
         try {
-
             data = execute(new UtxosQuery(Input.optional(address), Input.optional(count), Input.optional(offset)));
             if (data == null || data.utxos() == null || data.utxos().size() == 0)
-                return Result.error("No utxos found");
+                return processSuccessResult(Collections.EMPTY_LIST);
         } catch (Exception e) {
             if(logger.isDebugEnabled())
                 logger.warn("Utxos not found", e);
