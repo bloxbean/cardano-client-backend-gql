@@ -1,4 +1,4 @@
-query AssetQuery($assetId: String!) {
+query AssetQuery($assetId: Hex!) {
     assets(
         where: {
             assetId: {

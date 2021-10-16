@@ -54,7 +54,7 @@ public class GqlAddressService extends BaseGqlService implements AddressService 
                             if("ada".equals(assetBalance.asset().assetId())) { //GraphQL returns unit as ada for lovelace
                                 txContentOutputAmount.setUnit(LOVELACE);
                             } else {
-                                txContentOutputAmount.setUnit(assetBalance.asset().assetId());
+                                txContentOutputAmount.setUnit(String.valueOf(assetBalance.asset().assetId()));
                             }
                             txContentOutputAmount.setQuantity(assetBalance.quantity());
                             addressContent.getAmount().add(txContentOutputAmount);

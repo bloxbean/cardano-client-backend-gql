@@ -58,7 +58,7 @@ public class GlqEpochServiceIT extends GqlBaseTest{
         System.out.println(JsonUtil.getPrettyJson(protocolParams));
 
         assertThat(protocolParams, notNullValue());
-        assertThat(protocolParams.getMinUtxo(), is("1000000"));
+//        assertThat(protocolParams.getMinUtxo(), is("1000000"));
         assertThat(protocolParams.getPoolDeposit(), is("500000000"));
     }
 
@@ -73,7 +73,7 @@ public class GlqEpochServiceIT extends GqlBaseTest{
 
         assertThat(protocolParams, notNullValue());
         assertThat(protocolParams, notNullValue());
-        assertThat(protocolParams.getMinUtxo(), is("1000000"));
+//        assertThat(protocolParams.getMinUtxo(), is("1000000"));
         assertThat(protocolParams.getPoolDeposit(), is("500000000"));
         assertThat(protocolParams.getEMax(), notNullValue());
         assertThat(protocolParams.getNOpt(), notNullValue());

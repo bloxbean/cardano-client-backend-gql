@@ -1,6 +1,7 @@
 package com.bloxbean.cardano.client.backend.gql.it.helper;
 
 import com.bloxbean.cardano.client.account.Account;
+import com.bloxbean.cardano.client.backend.api.EpochService;
 import com.bloxbean.cardano.client.backend.api.TransactionService;
 import com.bloxbean.cardano.client.backend.api.UtxoService;
 import com.bloxbean.cardano.client.backend.api.helper.UtxoTransactionBuilder;
@@ -8,6 +9,7 @@ import com.bloxbean.cardano.client.backend.api.helper.impl.UtxoTransactionBuilde
 import com.bloxbean.cardano.client.backend.common.OrderEnum;
 import com.bloxbean.cardano.client.backend.exception.ApiException;
 import com.bloxbean.cardano.client.backend.gql.it.GqlBaseTest;
+import com.bloxbean.cardano.client.backend.model.ProtocolParams;
 import com.bloxbean.cardano.client.backend.model.Utxo;
 import com.bloxbean.cardano.client.common.model.Networks;
 import com.bloxbean.cardano.client.crypto.KeyGenUtil;
@@ -41,12 +43,16 @@ class UtxoTransactionBuilderIT extends GqlBaseTest {
     UtxoService utxoService;
     TransactionService transactionService;
     UtxoTransactionBuilder utxoTransactionBuilder;
+    EpochService epochService;
+    ProtocolParams protocolParams;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws ApiException {
         utxoService = backendService.getUtxoService();
         transactionService = backendService.getTransactionService();
         utxoTransactionBuilder = new UtxoTransactionBuilderImpl(utxoService);
+        epochService = backendService.getEpochService();
+        protocolParams = epochService.getProtocolParameters().getValue();
     }
 
     @Test
@@ -66,7 +72,7 @@ class UtxoTransactionBuilderIT extends GqlBaseTest {
         );
 
         Transaction transaction
-                = utxoTransactionBuilder.buildTransaction(paymentTransactionList, TransactionDetailsParams.builder().ttl(1000).build(), null);
+                = utxoTransactionBuilder.buildTransaction(paymentTransactionList, TransactionDetailsParams.builder().ttl(1000).build(), null, protocolParams);
 
         System.out.println(transaction);
 
@@ -93,7 +99,7 @@ class UtxoTransactionBuilderIT extends GqlBaseTest {
         paymentTransaction.setUtxosToInclude(Arrays.asList(utxo));
 
         Transaction transaction
-                = utxoTransactionBuilder.buildTransaction(Arrays.asList(paymentTransaction), TransactionDetailsParams.builder().ttl(1000).build(), null);
+                = utxoTransactionBuilder.buildTransaction(Arrays.asList(paymentTransaction), TransactionDetailsParams.builder().ttl(1000).build(), null, protocolParams);
 
         System.out.println(JsonUtil.getPrettyJson(transaction));
 
@@ -135,7 +141,7 @@ class UtxoTransactionBuilderIT extends GqlBaseTest {
         mintTokenTxn.setUtxosToInclude(Arrays.asList(utxo));
 
         Transaction transaction
-                = utxoTransactionBuilder.buildMintTokenTransaction(mintTokenTxn, TransactionDetailsParams.builder().ttl(1000).build(), null);
+                = utxoTransactionBuilder.buildMintTokenTransaction(mintTokenTxn, TransactionDetailsParams.builder().ttl(1000).build(), null, protocolParams);
 
         System.out.println(JsonUtil.getPrettyJson(transaction));
 

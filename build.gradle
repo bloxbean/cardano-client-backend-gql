@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.bloxbean.cardano:cardano-client-lib:0.1.2'
+    implementation 'com.bloxbean.cardano:cardano-client-lib:0.1.4'
     implementation("com.apollographql.apollo:apollo-runtime:2.5.9")
     implementation("com.apollographql.apollo:apollo-reactor-support:2.5.9")
     implementation("com.squareup.okhttp3:okhttp:4.9.1")

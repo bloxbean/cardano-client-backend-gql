@@ -66,7 +66,7 @@ public class GqlUtxoService extends BaseGqlService implements UtxoService {
 
                     for(UtxosQuery.Token token: ux.tokens()) {
                         amounts.add(Amount.builder()
-                            .unit(token.asset().assetId())
+                            .unit(String.valueOf(token.asset().assetId()))
                                 .quantity(new BigInteger(token.quantity()))
                                 .build()
                         );

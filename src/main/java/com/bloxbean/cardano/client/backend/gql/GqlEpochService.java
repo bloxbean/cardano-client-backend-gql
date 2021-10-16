@@ -108,6 +108,17 @@ public class GqlEpochService extends BaseGqlService implements EpochService {
         protocolParams.setNOpt(epochProtocolParams.nOpt());
         protocolParams.setPoolDeposit(String.valueOf(epochProtocolParams.poolDeposit()));
         //TODO protocol major version and minor version and other fields
+        if(epochProtocolParams.coinsPerUtxoWord() != null && epochProtocolParams.coinsPerUtxoWord() != 0)
+            protocolParams.setCoinsPerUtxoWord(String.valueOf(epochProtocolParams.coinsPerUtxoWord()));
+        else
+            protocolParams.setCoinsPerUtxoWord("34482"); //TODO As current value returned from gql endpoint is zero. Fix later.
+
+        if(epochProtocolParams.collateralPercent() != null) {
+            protocolParams.setCollateralPercent(new BigDecimal(epochProtocolParams.collateralPercent()));
+        }
+        if(epochProtocolParams.maxCollateralInputs() != null) {
+            protocolParams.setMaxCollateralInputs(epochProtocolParams.maxCollateralInputs());
+        }
 
         return processSuccessResult(protocolParams);
     }

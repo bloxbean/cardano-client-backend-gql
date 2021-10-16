@@ -57,7 +57,9 @@ query ProtocolParamQuery($number: Int!) {
             protocolVersion
             rho
             tau
-
+            coinsPerUtxoWord
+            collateralPercent
+            maxCollateralInputs
         }
     }
 }

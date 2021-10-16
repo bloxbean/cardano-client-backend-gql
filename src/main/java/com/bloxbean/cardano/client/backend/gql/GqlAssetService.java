@@ -39,7 +39,7 @@ public class GqlAssetService extends BaseGqlService implements AssetService {
         AssetQuery.Asset gqlAsset = assets.get(0);
         Asset asset = new Asset();
         asset.setPolicyId(String.valueOf(gqlAsset.policyId()));
-        asset.setAssetName(gqlAsset.assetName());
+        asset.setAssetName(String.valueOf(gqlAsset.assetName()));
         asset.setFingerprint(String.valueOf(gqlAsset.fingerprint()));
 
         BigInteger quantity = BigInteger.ZERO;

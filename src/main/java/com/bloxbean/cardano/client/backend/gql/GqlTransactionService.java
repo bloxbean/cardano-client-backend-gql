@@ -125,7 +125,7 @@ public class GqlTransactionService extends BaseGqlService implements Transaction
                 for(TransactionQuery.Token token: tokens) {
                     try {
                         txOutputAmounts.add(TxOutputAmount.builder()
-                                .unit(token.asset().assetId())
+                                .unit(String.valueOf(token.asset().assetId()))
                                 .quantity(token.quantity()).build()
                         );
                     } catch (Exception e) {}
@@ -181,7 +181,7 @@ public class GqlTransactionService extends BaseGqlService implements Transaction
                 for(TransactionQuery.Token1 token: tokens) {
                     try {
                         TxContentOutputAmount txOutputAmount = TxContentOutputAmount.builder()
-                                .unit(token.asset().assetId())
+                                .unit(String.valueOf(token.asset().assetId()))
                                 .quantity(token.quantity()).build();
                         outputAmounts.add(txOutputAmount);
                     } catch (Exception e) {}
@@ -225,7 +225,7 @@ public class GqlTransactionService extends BaseGqlService implements Transaction
                 for(TransactionQuery.Token token: tokens) {
                     try {
                         TxContentOutputAmount txOutputAmount = TxContentOutputAmount.builder()
-                                .unit(token.asset().assetId())
+                                .unit(String.valueOf(token.asset().assetId()))
                                 .quantity(token.quantity()).build();
                         outputAmounts.add(txOutputAmount);
                     } catch (Exception e) {}
