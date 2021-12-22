@@ -1,3 +1,7 @@
+# This repository has been archived. All files have been moved under cardano-client-lib project (https://github.com/bloxbean/cardano-client-lib/tree/master/backends/cardano-graphql) #
+
+## All backend implementations will be maintained under [cardano-client-lib](https://github.com/bloxbean/cardano-client-lib) repo ##
+
 [![Java CI with Gradle](https://github.com/bloxbean/cardano-client-backend-gql/actions/workflows/gradle.yml/badge.svg)](https://github.com/bloxbean/cardano-client-backend-gql/actions/workflows/gradle.yml)
 
 # cardano-client-backend-gql
